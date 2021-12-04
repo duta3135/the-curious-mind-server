@@ -1,28 +1,31 @@
 {
-  "name": "server",
+  "name": "tcm-api",
   "version": "1.0.0",
-  "description": "Backend for an NGO website",
+  "description": "a rest api made with node and express",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/duta3135/TCM.git"
+    "url": "git+https://github.com/duta3135/restAPI.git"
   },
-  "author": "DutaSetyawan",
-  "license": "MIT",
+  "keywords": [
+    "API"
+  ],
+  "author": "Duta Setyawan",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/duta3135/TCM/issues"
+    "url": "https://github.com/duta3135/restAPI/issues"
   },
-  "homepage": "https://github.com/duta3135/TCM#readme",
+  "homepage": "https://github.com/duta3135/restAPI#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "mongoose": "^6.0.13"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.15"
+    "mongoose": "^5.13.3"
   }
 }
