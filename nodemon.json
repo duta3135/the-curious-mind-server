@@ -1,0 +1,6 @@
+{
+    "env":{
+        "MONGO_PW":"17Agustus45!",
+        "MONGO_DB":"TCM"
+    }
+}
