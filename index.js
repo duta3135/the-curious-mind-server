@@ -14,8 +14,8 @@ app.use('/writers', writersRoute);
 app.use('/podcasts', podcastsRoute);
 //mongo
 mongoose.connect(
-    `mongodb+srv://duta3135db:${process.env.MONGO_PW}@test-api.kugea.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
-    { useNewUrlParser: true },
+    `mongodb+srv://duta3135db:${process.env.MONGO_PW}@duta-cluster.kugea.mongodb.net/duta-cluster?retryWrites=true&w=majority`,
+    { useNewUrlParser: true , useUnifiedTopology: true},
     ()=>console.log('connected to db')
 )
 

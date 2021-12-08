@@ -9,7 +9,7 @@ router.get('/', (req,res) => {
 router.post('/', (req, res)=>{
     const article = new Article({
         _id:new mongoose.Types.ObjectId(),
-        title: req.body.name,
+        title: req.body.title,
         writer: req.body.writer,
         description: req.body.description,
         content: req.body.content,
@@ -18,7 +18,7 @@ router.post('/', (req, res)=>{
     article.save()
     .then(
         res.status(200).json({
-            message: 'posted an article'
+            message: "posted an article"
         })
     )
     .catch(
