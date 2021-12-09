@@ -8,7 +8,7 @@ const db = require('./app/models/')
 app.get('/', (req,res)=>{
     res.send("you're on home")
 })
-require('./app/routes/post.routes')(app)
+require('./app/routes/article.routes')(app)
 //connects to db
 db.mongoose
     .connect(db.url, {
