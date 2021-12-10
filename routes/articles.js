@@ -2,14 +2,15 @@ const Article = require('../models/Article')
 const mongoose = require('mongoose')
 const router = require('express').Router()
 router.post('/', (req,res)=>{
+    const {title, writer, description, category, content, published}=req.body
     const article = new Article({
     _id: new mongoose.Types.ObjectId(),
-    title: "article",
-    writer: "duta",
-    description: "an article",
-    category: "politics",
-    content: "the quick brown fox jumps over the lazy dog",
-    published: true
+    title: {title},
+    writer: {writer},
+    description: {description},
+    category: {category},
+    content: {content},
+    published: {published}
 })
 article.save()  
     .then(()=>{
