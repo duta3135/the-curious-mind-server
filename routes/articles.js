@@ -14,7 +14,7 @@ router.post('/', (req,res)=>{
 })
 article.save()  
     .then(()=>{
-        res.status(200).send('posted article')       
+        res.status(200).send('posted an article')       
     }) 
     .catch(err=>{
         res.status(500).json({
