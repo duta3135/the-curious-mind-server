@@ -9,7 +9,8 @@ router.post('/', (req,res)=>{
     description: req.body.description,
     category: req.body.category,
     content: req.body.content,
-    published: req.body.published
+    published: req.body.published,
+    time: Date.now()
 })
 article.save()  
     .then(()=>{
