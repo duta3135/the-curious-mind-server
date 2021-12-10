@@ -1,5 +1,9 @@
-const Article = require('./models/Article.js')
 const mongoose = require('mongoose')
+const articlesRoute = require('./routes/articles')
+const express = require('express')
+const app = express()
+app.use(express.json())
+//connect to mongodb
 mongoose.connect(
     'mongodb://localhost:27017/collect-tcm', {
         useNewUrlParser: true,
@@ -10,19 +14,7 @@ mongoose.connect(
 }).catch(err=>{
     console.log(err)
 })
-
-const article = new Article({
-    title: "article",
-    writer: "duta",
-    description: "an article",
-    category: "politics",
-    content: "the quick brown fox jumps over the lazy dog",
-    published: true
-})
-article.save()  
-    .then(()=>{
-        console.log('posted article')       
-    }) 
-    .catch(err=>{
-        console.log(err)
-    })
+//connect to server
+app.listen(3001, ()=>{console.log('server running on http://localhost:3001')})
+//routes
+app.use('/articles', articlesRoute)
