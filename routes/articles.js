@@ -4,12 +4,12 @@ const router = require('express').Router()
 router.post('/', (req,res)=>{
     const article = new Article({
     _id: new mongoose.Types.ObjectId(),
-    title: "article",
-    writer: "duta",
-    description: "an article",
-    category: "politics",
-    content: "the quick brown fox jumps over the lazy dog",
-    published: true
+    title: req.body.title,
+    writer: req.body.writer,
+    description: req.body.description,
+    category: req.body.category,
+    content: req.body.content,
+    published: req.body.published
 })
 article.save()  
     .then(()=>{
