@@ -45,7 +45,7 @@ router.get('/:postId', async (req, res)=>{
         res.send(anArticle)
     }
     catch(err){
-        res.json('failed to get an article')
+        res.json(`failed to get ${req.params.postId}`)
     }
 })
 //delete single article
