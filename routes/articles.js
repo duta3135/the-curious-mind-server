@@ -6,6 +6,7 @@ router.post('/', async (req,res)=>{
     try{
         const article = new Article({
             _id: new mongoose.Types.ObjectId(),
+            cover: req.body.cover,
             title: req.body.title,
             writer: req.body.writer,
             description: req.body.description,
@@ -17,7 +18,7 @@ router.post('/', async (req,res)=>{
         article.save()  
             .then(()=>{
                 res.status(200).json({
-                    message: 'posted an article'
+                    message: `posted an article with id: ${article._id}`
                 })       
         }) 
     }

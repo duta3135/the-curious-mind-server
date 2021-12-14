@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const articlesRoute = require('./routes/articles')
+const podcastLinks = require('./routes/podcastLinks')
 const express = require('express')
 const app = express()
 app.use(express.json())
@@ -18,3 +19,4 @@ mongoose.connect(
 app.listen(3001, ()=>{console.log('server running on http://localhost:3001')})
 //routes
 app.use('/articles', articlesRoute)
+app.use('/podcast-links', podcastLinks)

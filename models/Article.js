@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 const schema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
+    cover: {
+        type: String,
+        required: false
+    },
     title: {
         type: String,
         required: [true, 'title empty, please fill in title']
