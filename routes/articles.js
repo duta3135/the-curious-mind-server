@@ -31,15 +31,27 @@ router.post('/', async (req,res)=>{
 )
 //get all articles
 router.get('/', async (req, res)=>{
-    try{
-        const articles = await Article.find()
+    if(req.query.category){
+        try{
+        const articles = await Article.find({category: req.query.category})
         res.send(articles)
+        }
+        catch(err){
+            console.log(err)
+        }
+    }else{
+        try{
+            const articles = await Article.find()
+            res.send(articles)
+            }
+            catch(err){
+                console.log(err)
+            }
     }
-    catch(err){
-        console.log(err)
-    }
+    
 })
-//get an article
+
+//get an article by id
 router.get('/:postId', async (req, res)=>{
     try{
         const anArticle = await Article.findById(req.params.postId)
@@ -49,6 +61,7 @@ router.get('/:postId', async (req, res)=>{
         res.json(`failed to get ${req.params.postId}`)
     }
 })
+
 //delete single article
 router.delete('/:postId', async (req,res)=>{
     try{
@@ -80,4 +93,5 @@ router.patch('/:postId', async (req, res)=>{
         console.log(err)
     }
 })
+
 module.exports = router
