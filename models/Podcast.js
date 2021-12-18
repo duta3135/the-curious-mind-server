@@ -14,4 +14,4 @@ const schema = mongoose.Schema({
         required: [true, 'link empty, please fill out']
     }
 })
-module.exports = mongoose.model("PodcastLink", schema)
+module.exports = mongoose.model("Podcast", schema)

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
-const articlesRoute = require('./routes/articles')
-const podcastLinks = require('./routes/podcastLinks')
+const articles = require('./routes/articles')
+const podcasts = require('./routes/podcasts')
+const writers = require('./routes/writers')
+require
 const express = require('express')
 const app = express()
 app.use(express.json())
@@ -18,5 +20,6 @@ mongoose.connect(
 //connect to server
 app.listen(3001, ()=>{console.log('server running on http://localhost:3001')})
 //routes
-app.use('/articles', articlesRoute)
-app.use('/podcast-links', podcastLinks)
+app.use('/articles', articles)
+app.use('/podcasts', podcasts)
+app.use('/writers', writers)

@@ -37,7 +37,9 @@ router.get('/', async (req, res)=>{
         res.send(articles)
         }
         catch(err){
-            console.log(err)
+            res.status(500).json({
+                message:err
+            })
         }
     }else{
         try{
@@ -45,7 +47,9 @@ router.get('/', async (req, res)=>{
             res.send(articles)
             }
             catch(err){
-                console.log(err)
+                res.status(500).json({
+                    message:err
+                })
             }
     }
     
@@ -54,11 +58,13 @@ router.get('/', async (req, res)=>{
 //get an article by id
 router.get('/:postId', async (req, res)=>{
     try{
-        const anArticle = await Article.findById(req.params.postId)
-        res.send(anArticle)
+        const article = await Article.findById(req.params.postId)
+        res.send(article)
     }
     catch(err){
-        res.json(`failed to get ${req.params.postId}`)
+        res.status(500).json({
+            message:err
+        })
     }
 })
 
@@ -71,7 +77,9 @@ router.delete('/:postId', async (req,res)=>{
         })
     }
     catch(err){
-        res.json(err)
+        res.status(500).json({
+                message:err
+            })
     }
 })
 //update an article
@@ -90,7 +98,9 @@ router.patch('/:postId', async (req, res)=>{
         })
     }
     catch(err){
-        console.log(err)
+        res.status(500).json({
+            message:err
+        })
     }
 })
 

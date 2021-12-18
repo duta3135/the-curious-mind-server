@@ -1,6 +1,5 @@
-const PodcastLink = require('../models/PodcastLink')
+const Podcast = require('../models/Podcast')
 const mongoose = require('mongoose')
-const Article = require('../models/Article')
 const router = require('express').Router()
 //posting a podcast link    
 router.post('/', async (req, res)=>{
@@ -24,9 +23,10 @@ router.post('/', async (req, res)=>{
         })
     }
 })
+//get all podcast links
 router.get('/', async (req, res)=>{
     try {
-        const podcastLinks = await PodcastLink.find()
+        const podcastLinks = await Podcast.find()
         res.send(podcastLinks)
     } catch (err) {
         res.status(500).json({
