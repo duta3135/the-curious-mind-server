@@ -41,7 +41,19 @@ router.get('/', async (req, res)=>{
                 message:err
             })
         }
-    }else{
+    }
+    else if(req.query.limit){
+        try{
+            const articles = await Article.find().limit(Number(req.query.limit))
+            res.send(articles)
+            }
+            catch(err){
+                res.status(500).json({
+                    message:err
+                })
+            }
+    }
+    else{
         try{
             const articles = await Article.find()
             res.send(articles)
