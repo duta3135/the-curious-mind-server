@@ -53,6 +53,17 @@ router.get('/', async (req, res)=>{
                 })
             }
     }
+    else if(req.query.limit && req.query.category){
+        try{
+            const articles = await Article.find({category: req.query.category}).limit(Number(req.query.limit))
+            res.send(articles)
+            }
+            catch(err){
+                res.status(500).json({
+                    message:err
+                })
+            }
+    }
     else{
         try{
             const articles = await Article.find()
