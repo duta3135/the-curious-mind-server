@@ -1,6 +1,5 @@
 const Writer = require('../models/Writer')
 const mongoose = require('mongoose')
-const Article = require('../models/Article')
 const router = require('express').Router()
 //post a writer
 router.post('/', async (req, res) => {
@@ -47,6 +46,39 @@ router.get('/:writerId', async (req, res) => {
         })
     }
 })
+//edit a writer
+router.patch('/:writerId', async (req, res) => {
+    try{
+        await Writer.findByIdAndUpdate(req.params.writerId, {
+            username: req.body.username,
+            name: req.body.name,
+            password: req.body.password,
+            insta: req.body.insta
+        }).then(() => {
+            res.status(200).json({
+                message: `updated id: ${req.params.writerId}`
+            })
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message: err
+        })
+    }
+})
 //remove a writer
-
+router.delete('/:writerId', async (req, res) => {
+    try {
+        await Writer.findByIdAndDelete(req.params.writerId)
+        .then(() => {
+            res.status(200).json({
+                message: `deleted ${req.params.writerId}`
+            })
+        })
+    } catch (err) {
+        res.status(500).json({
+            message: err
+        })
+    }
+})
 module.exports = router
