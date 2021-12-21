@@ -54,10 +54,9 @@ router.patch('/:writerId', async (req, res) => {
             name: req.body.name,
             password: req.body.password,
             insta: req.body.insta
-        }).then(() => {
-            res.status(200).json({
-                message: `updated id: ${req.params.writerId}`
-            })
+        })
+        res.status(200).json({
+            message: `updated id: ${req.params.writerId}`
         })
     }
     catch(err){
