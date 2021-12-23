@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const router = require('express').Router()
 //post an article
 function generatePassword(length) {
-    const charset = "abcdefghijklmnopqrstuvwxyz0123456789+/"
+    const charset = "abcdefghijklmnopqrstuvwxyz0123456789-_"
     var retVal = "";
     for (var i = 0, n = charset.length; i < length; ++i) {
         retVal += charset.charAt(Math.floor(Math.random() * n));
@@ -12,9 +12,11 @@ function generatePassword(length) {
 }
 router.post('/', async (req,res)=>{
     try{
-        const id = req.body.title.replace(/\s+/g, '-').toLowerCase()
+        const id = `${req.body.title.replace(/\s+/g, '-').toLowerCase()}${generatePassword(8)}`
+        const objId= new mongoose.Types.ObjectId(id)
+        res.send(typeof(id))
         const article = new Article({
-            _id: mongoose.Types.ObjectId(id),
+            _id: objId,
             cover: req.body.cover,
             title: req.body.title,
             writer: req.body.writer,
