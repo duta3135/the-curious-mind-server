@@ -2,10 +2,19 @@ const Article = require('../models/Article')
 const mongoose = require('mongoose')
 const router = require('express').Router()
 //post an article
+function generatePassword(length) {
+    const charset = "abcdefghijklmnopqrstuvwxyz0123456789+/"
+    var retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+}
 router.post('/', async (req,res)=>{
     try{
+        const id = req.body.title.replace(/\s+/g, '-').toLowerCase()
         const article = new Article({
-            _id: new mongoose.Types.ObjectId(),
+            _id: mongoose.Types.ObjectId(id),
             cover: req.body.cover,
             title: req.body.title,
             writer: req.body.writer,
