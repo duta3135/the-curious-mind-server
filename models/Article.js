@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const schema = new mongoose.Schema({
-    _id: String,
+    _id: mongoose.Schema.Types.ObjectId,
     cover: {
         type: String,
         required: false

@@ -13,8 +13,7 @@ function generatePassword(length) {
 router.post('/', async (req,res)=>{
     try{
         const id = `${req.body.title.replace(/\s+/g, '-').toLowerCase()}${generatePassword(8)}`
-        const objId= new mongoose.Types.ObjectId(id)
-        res.send(typeof(id))
+        const objId= mongoose.Types.ObjectId(id)
         const article = new Article({
             _id: objId,
             cover: req.body.cover,
