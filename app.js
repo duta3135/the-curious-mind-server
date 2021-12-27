@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
+const cors = require('cors')
+const express = require('express')
+const app = express()
 const articles = require('./routes/articles')
 const podcasts = require('./routes/podcasts')
 const writers = require('./routes/writers')
-require
-const express = require('express')
-const app = express()
+
 app.use(express.json())
 //connect to mongodb
 mongoose.connect(
