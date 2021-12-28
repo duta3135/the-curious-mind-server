@@ -5,7 +5,10 @@ const app = express()
 const articles = require('./routes/articles')
 const podcasts = require('./routes/podcasts')
 const writers = require('./routes/writers')
-
+app.use(cors({
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200
+}))
 app.use(express.json())
 //connect to mongodb
 mongoose.connect(
