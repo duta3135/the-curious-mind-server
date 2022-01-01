@@ -8,7 +8,7 @@ router.post('/', async (req,res)=>{
             _id: new mongoose.Types.ObjectId(),
             cover: req.body.cover,
             title: req.body.title,
-            writer: req.body.writer,
+            writers: req.body.writers,
             description: req.body.description,
             category: req.body.category,
             content: req.body.content,
@@ -110,7 +110,7 @@ router.patch('/:postId', async (req, res)=>{
     try{
         Article.findByIdAndUpdate(req.params.postId, {
             title: req.body.title,
-            writer: req.body.writer,
+            writers: req.body.writers,
             description: req.body.description,
             category: req.body.category,
             content: req.body.content,

@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
         required: [true, 'title empty, please fill in title']
     },
     writer: {
-        type: String,
+        type: Array,
         required: [true, 'writer empty, please fill in title']
     },
     description: {
