@@ -31,6 +31,7 @@ router.post('/', async (req,res)=>{
 )
 //get all articles
 router.get('/', async (req, res)=>{
+    //get all published articles in a category(/articles)
     if(req.query.category){
         try{
         const articles = await Article.find({category: req.query.category, published:true})
@@ -42,6 +43,7 @@ router.get('/', async (req, res)=>{
             })
         }
     }
+    //get all published articles, limited to a number(/)
     else if(req.query.limit){
         try{
             const articles = await Article.find({published: true}).limit(Number(req.query.limit))
@@ -53,6 +55,7 @@ router.get('/', async (req, res)=>{
                 })
             }
     }
+    //get all published articles with a category and limited to a number(/articles/:id)
     else if(req.query.limit && req.query.category){
         try{
             const articles = await Article.find({category: req.query.category, published: true}).limit(Number(req.query.limit))
@@ -64,6 +67,7 @@ router.get('/', async (req, res)=>{
                 })
             }
     }
+    //get all articles with the specified published
     else if(req.query.published){
         try {
             const articles = await Article.find({published: req.query.published})
@@ -74,6 +78,7 @@ router.get('/', async (req, res)=>{
             })
         }
     }
+    //get all articles
     else{
         try{
             const articles = await Article.find()
