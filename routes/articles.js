@@ -33,7 +33,7 @@ router.post('/', async (req,res)=>{
 router.get('/', async (req, res)=>{
     if(req.query.category){
         try{
-        const articles = await Article.find({category: req.query.category})
+        const articles = await Article.find({category: req.query.category, published:true})
         res.send(articles)
         }
         catch(err){
@@ -44,7 +44,7 @@ router.get('/', async (req, res)=>{
     }
     else if(req.query.limit){
         try{
-            const articles = await Article.find().limit(Number(req.query.limit))
+            const articles = await Article.find({published: true}).limit(Number(req.query.limit))
             res.send(articles)
             }
             catch(err){
@@ -55,7 +55,7 @@ router.get('/', async (req, res)=>{
     }
     else if(req.query.limit && req.query.category){
         try{
-            const articles = await Article.find({category: req.query.category}).limit(Number(req.query.limit))
+            const articles = await Article.find({category: req.query.category, published: true}).limit(Number(req.query.limit))
             res.send(articles)
             }
             catch(err){
@@ -63,6 +63,16 @@ router.get('/', async (req, res)=>{
                     message:err
                 })
             }
+    }
+    else if(req.query.published){
+        try {
+            const articles = await Article.find({published: req.query.published})
+            res.send(articles)
+        } catch (err) {
+            res.status(500).json({
+                message:err
+            })
+        }
     }
     else{
         try{
