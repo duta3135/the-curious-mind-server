@@ -35,9 +35,9 @@ router.get('/', async (req, res) => {
     }
 })
 //get a single writer
-router.get('/:writerId', async (req, res) => {
+router.get('/:writerUsername', async (req, res) => {
     try {
-        const writer = await Writer.findById(req.params.writerId)
+        const writer = await Writer.find({username: req.params.writerUsername})
         res.send(writer)
     }
     catch (err) {
@@ -47,16 +47,16 @@ router.get('/:writerId', async (req, res) => {
     }
 })
 //edit a writer
-router.patch('/:writerId', async (req, res) => {
+router.patch('/:writerUsername', async (req, res) => {
     try{
-        await Writer.findByIdAndUpdate(req.params.writerId, {
+        await Writer.findOneAndUpdate({username: req.params.writerUsername}, {
             username: req.body.username,
             name: req.body.name,
             password: req.body.password,
             insta: req.body.insta
         })
         res.status(200).json({
-            message: `updated id: ${req.params.writerId}`
+            message: `updated id: ${req.params.writerUsername}`
         })
     }
     catch(err){
@@ -68,7 +68,7 @@ router.patch('/:writerId', async (req, res) => {
 //remove a writer
 router.delete('/:writerId', async (req, res) => {
     try {
-        await Writer.findByIdAndDelete(req.params.writerId)
+        await Writer.findOneAndRemove({username: req.params.writerId})
         .then(() => {
             res.status(200).json({
                 message: `deleted ${req.params.writerId}`
