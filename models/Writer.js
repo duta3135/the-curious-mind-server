@@ -3,7 +3,8 @@ const schema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     username:{
         type: String,
-        required: [true, 'username empty, please fill out']
+        required: [true, 'username empty, please fill out'],
+        unique: true
     },
     name:{
         type:String,
