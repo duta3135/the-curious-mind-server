@@ -66,12 +66,12 @@ router.patch('/:writerUsername', async (req, res) => {
     }
 })
 //remove a writer
-router.delete('/:writerId', async (req, res) => {
+router.delete('/:writerUsername', async (req, res) => {
     try {
-        await Writer.findOneAndRemove({username: req.params.writerId})
+        await Writer.findOneAndRemove({username: req.params.writerUsername})
         .then(() => {
             res.status(200).json({
-                message: `deleted ${req.params.writerId}`
+                message: `deleted ${req.params.writerUsername}`
             })
         })
     } catch (err) {
