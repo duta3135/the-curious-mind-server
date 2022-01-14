@@ -2,9 +2,13 @@ const mongoose = require('mongoose')
 const articles = require('./routes/articles')
 const podcasts = require('./routes/podcasts')
 const writers = require('./routes/writers')
+const images = require('./routes/images')
+const fileUpload = require("express-fileupload")
+
 const cors = require('cors')
 const express = require('express')
 const app = express()
+app.use(fileUpload())
 app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -27,3 +31,4 @@ app.listen(3001, ()=>{console.log('server running on http://localhost:3001')})
 app.use('/articles', articles)
 app.use('/podcasts', podcasts)
 app.use('/writers', writers)
+app.use('/images', images)

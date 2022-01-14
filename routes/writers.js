@@ -1,14 +1,21 @@
 const Writer = require('../models/Writer')
 const mongoose = require('mongoose')
+const {scryptSync, randomBytes} = require('crypto')
 const router = require('express').Router()
 //post a writer
+function hash(text){
+    const salt = randomBytes(16).toString('hex')
+    const hashedText = scryptSync(text, salt, 64).toString('hex')
+    return `${salt}:${hashedText}`
+}
 router.post('/', async (req, res) => {
     try {
+        const password = hash(req.body.password)
         const writer = new Writer({
             _id: new mongoose.Types.ObjectId(),
             username: req.body.username,
             name: req.body.name,
-            password: req.body.password,
+            password: password,
             insta: req.body.insta
         })
         writer.save().then(() => {
