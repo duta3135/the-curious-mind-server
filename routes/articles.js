@@ -32,16 +32,16 @@ router.post('/', async (req,res)=>{
 //get all articles
 router.get('/', async (req, res)=>{
     //get all published articles in a category(/articles)
-    if(req.query.category){
+    if(req.query.limit && req.query.category){
         try{
-        const articles = await Article.find({category: req.query.category, published:true})
-        res.send(articles)
-        }
-        catch(err){
-            res.status(500).json({
-                message:err
-            })
-        }
+            const articles = await Article.find({category: req.query.category, published: true}).limit(Number(req.query.limit))
+            res.send(articles)
+            }
+            catch(err){
+                res.status(500).json({
+                    message:err
+                })
+            }
     }
     //get all published articles, limited to a number(/)
     else if(req.query.limit){
@@ -56,16 +56,16 @@ router.get('/', async (req, res)=>{
             }
     }
     //get all published articles with a category and limited to a number(/articles/:id)
-    else if(req.query.limit && req.query.category){
+    else if(req.query.category){
         try{
-            const articles = await Article.find({category: req.query.category, published: true}).limit(Number(req.query.limit))
-            res.send(articles)
-            }
-            catch(err){
-                res.status(500).json({
-                    message:err
-                })
-            }
+        const articles = await Article.find({category: req.query.category, published:true})
+        res.send(articles)
+        }
+        catch(err){
+            res.status(500).json({
+                message:err
+            })
+        }
     }
     //get all articles with the specified published
     else if(req.query.published){
