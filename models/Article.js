@@ -9,7 +9,7 @@ const schema = new mongoose.Schema({
         type: String,
         required: [true, 'title empty, please fill in title']
     },
-    writer: {
+    writers: {
         type: Array,
         required: [true, 'writer empty, please fill in title']
     },
