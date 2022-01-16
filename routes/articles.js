@@ -18,7 +18,8 @@ router.post('/', async (req,res)=>{
         article.save()  
             .then(()=>{
                 res.status(200).json({
-                    message: `posted an article with id: ${article._id}`
+                    message: `posted an article with id: ${article._id}`,
+                    id: article._id 
                 })       
         }) 
     }
