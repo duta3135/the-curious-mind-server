@@ -28,14 +28,29 @@ router.post('/', (req, res) => {
                 return res.status(500).send(err)
             }
         })
-        cloudinary.v2.uploader.upload(uploadPath, {exif: true, public_id: `${file.name}${id}`}, function(err, response){
-            if(err) res.send(err)
-            res.status(200).send(response)
-            fs.unlinkSync(uploadPath)
+        cloudinary.v2.uploader.upload(
+            uploadPath, 
+            {exif: true, public_id: `${file.name}${id}`}, 
+            function(err, response){
+                if(err) res.send(err)
+                res.status(200).json({
+                    message: response,
+                    id: `${file.name}${id}`
+                })
+                fs.unlinkSync(uploadPath)
         });
     }
     catch(err){
         res.status(500).json({message: err})
     }
+})
+router.delete('/:imageId', (req, res) => {
+    cloudinary.v2.uploader.destroy(
+        req.params.imageId, 
+        {invalidate: true}, 
+        function(err, response){
+            if(err) res.send(err)
+            res.status(200).send(response)
+    })
 })
 module.exports = router
