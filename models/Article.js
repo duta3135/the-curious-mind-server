@@ -25,7 +25,7 @@ const schema = new mongoose.Schema({
             message: 'category does not fulfill requirements'
         }
     },
-    content: Object,
+    content: String,
     published: {
         type: Boolean,
         required: [true, 'published property needed']
