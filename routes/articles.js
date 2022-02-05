@@ -32,64 +32,10 @@ router.post('/', async (req,res)=>{
 )
 //get all articles
 router.get('/', async (req, res)=>{
-    //get all published articles in a category(/articles)
-    if(req.query.limit && req.query.category){
-        try{
-            const articles = await Article.find({category: req.query.category, published: true}).limit(Number(req.query.limit))
-            res.send(articles)
-            }
-            catch(err){
-                res.status(500).json({
-                    message:err
-                })
-            }
-    }
-    //get all published articles, limited to a number(/)
-    else if(req.query.limit){
-        try{
-            const articles = await Article.find({published: true}).limit(Number(req.query.limit))
-            res.send(articles)
-            }
-            catch(err){
-                res.status(500).json({
-                    message:err
-                })
-            }
-    }
-    //get all published articles with a category and limited to a number(/articles/:id)
-    else if(req.query.category){
-        try{
-        const articles = await Article.find({category: req.query.category, published:true})
-        res.send(articles)
-        }
-        catch(err){
-            res.status(500).json({
-                message:err
-            })
-        }
-    }
-    //get all articles with the specified published
-    else if(req.query.published){
-        try {
-            const articles = await Article.find({published: req.query.published})
-            res.send(articles)
-        } catch (err) {
-            res.status(500).json({
-                message:err
-            })
-        }
-    }
-    //get all articles
-    else{
-        try{
-            const articles = await Article.find()
-            res.send(articles)
-            }
-            catch(err){
-                res.status(500).json({
-                    message:err
-                })
-            }
+    try {
+        await Article.find(req.query).limit(Number(req.query.limit)).then(result=>res.send(result))
+    } catch (err) {
+        res.status(500).send(err)
     }
     
 })
