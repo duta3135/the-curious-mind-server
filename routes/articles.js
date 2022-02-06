@@ -33,11 +33,11 @@ router.post('/', async (req,res)=>{
 //get all articles
 router.get('/', async (req, res)=>{
     try {
-        await Article.find(req.query).limit(Number(req.query.limit)).then(result=>res.send(result))
+        const exclusion = req.query.exclude || 0
+        await Article.find(req.query).where({_id: {$ne: exclusion}}).limit(Number(req.query.limit)).then(result=>res.send(result))
     } catch (err) {
         res.status(500).send(err)
     }
-    
 })
 
 //get an article by id
