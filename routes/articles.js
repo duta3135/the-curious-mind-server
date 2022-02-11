@@ -32,11 +32,15 @@ router.post('/', async (req,res)=>{
 )
 //get all articles
 router.get('/', async (req, res)=>{
+    if(!req.query.sample)
     try {
         const exclusion = req.query.exclude || 0
         await Article.find(req.query).where({_id: {$ne: exclusion}}).limit(Number(req.query.limit)).then(result=>res.send(result))
     } catch (err) {
         res.status(500).send(err)
+    }
+    else{
+        await Article.aggregate().sample(1).then(result=>res.send(result))
     }
 })
 
