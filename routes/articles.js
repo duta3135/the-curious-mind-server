@@ -32,21 +32,34 @@ router.post('/', async (req,res)=>{
 )
 //get all articles
 router.get('/', async (req, res)=>{
-    if(!req.query.sample)
-    try {
-        const exclusion = req.query.exclude || 0
-        await Article.aggregate().lookup({
+    if(!req.query.sample){
+        try {
+            const publishedQuery = typeof(req.query.published)!="undefined" ? (req.query.published === 'true') : {$in: [true, false]}
+            await Article.aggregate([
+                {$match:{
+                    _id: {$ne: req.query.exclude || "0"},
+                    category: req.query.category || {$in: ['Entertainment', 'Health', 'Politics', 'Food']},
+                    published: publishedQuery
+                }},
+                { $limit : Number(req.query.limit) || 9007199254740991 },
+             ])
+            .lookup({
+                from: "writers",
+                localField: 'writers',
+                foreignField: 'name',
+                as: 'writers'
+            })
+            .then(result=>res.send(result))
+        } catch (err) {
+            res.status(500).send(err)
+        }}
+    else{
+        await Article.aggregate().sample(1).lookup({
             from: "writers",
             localField: 'writers',
             foreignField: 'name',
             as: 'writers'
         }).then(result=>res.send(result))
-        // await Article.find().limit(Number(req.query.limit))
-    } catch (err) {
-        res.status(500).send(err)
-    }
-    else{
-        await Article.aggregate().sample(1).then(result=>res.send(result))
     }
 })
 
