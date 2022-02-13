@@ -35,7 +35,13 @@ router.get('/', async (req, res)=>{
     if(!req.query.sample)
     try {
         const exclusion = req.query.exclude || 0
-        await Article.find(req.query).where({_id: {$ne: exclusion}}).limit(Number(req.query.limit)).then(result=>res.send(result))
+        await Article.aggregate().lookup({
+            from: "writers",
+            localField: 'writers',
+            foreignField: 'name',
+            as: 'writers'
+        }).then(result=>res.send(result))
+        // await Article.find().limit(Number(req.query.limit))
     } catch (err) {
         res.status(500).send(err)
     }
