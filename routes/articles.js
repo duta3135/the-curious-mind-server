@@ -66,13 +66,22 @@ router.get('/', async (req, res)=>{
 //get an article by id
 router.get('/:postId', async (req, res)=>{
     try{
-        const article = await Article.findById(req.params.postId)
-        res.send(article)
-    }
-    catch(err){
-        res.status(500).json({
-            message:err
+        await Article.aggregate([
+            {$match:{
+                _id: req.params.postId,
+            }},
+            ])
+        .lookup({
+            from: "writers",
+            localField: 'writers',
+            foreignField: 'name',
+            as: 'writers'
         })
+        .then(result=>res.send(result))
+    }
+            
+    catch (err) {
+        res.status(500).send(err)
     }
 })
 
