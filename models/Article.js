@@ -3,7 +3,7 @@ const schema = new mongoose.Schema({
     _id: String,
     cover: {
         type: String,
-        required: false
+        required: true
     },
     title: {
         type: String,
@@ -29,7 +29,8 @@ const schema = new mongoose.Schema({
     published: {
         type: Boolean,
         required: [true, 'published property needed']
-    }
+    },
+    date_time: Date
 })
 
 module.exports=mongoose.model("Article", schema)

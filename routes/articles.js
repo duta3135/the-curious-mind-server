@@ -13,7 +13,7 @@ router.post('/', async (req,res)=>{
             category: req.body.category,
             content: req.body.content,
             published: req.body.published,
-            time: Date.now()
+            date_time: Date.now()
         })
         article.save()  
             .then(()=>{
@@ -41,6 +41,7 @@ router.get('/', async (req, res)=>{
                     category: req.query.category || {$in: ['Entertainment', 'Health', 'Politics', 'Food']},
                     published: publishedQuery
                 }},
+                {$sort: {date_time: -1}},
                 { $limit : Number(req.query.limit) || 9007199254740991 },
              ])
             .lookup({
