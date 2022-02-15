@@ -32,28 +32,56 @@ router.post('/', async (req,res)=>{
 )
 //get all articles
 router.get('/', async (req, res)=>{
-    if(!req.query.sample)
-    try {
-        const exclusion = req.query.exclude || 0
-        await Article.find(req.query).where({_id: {$ne: exclusion}}).limit(Number(req.query.limit)).then(result=>res.send(result))
-    } catch (err) {
-        res.status(500).send(err)
-    }
+    if(!req.query.sample){
+        try {
+            const publishedQuery = typeof(req.query.published)!="undefined" ? (req.query.published === 'true') : {$in: [true, false]}
+            await Article.aggregate([
+                {$match:{
+                    _id: {$ne: req.query.exclude || "0"},
+                    category: req.query.category || {$in: ['Entertainment', 'Health', 'Politics', 'Food']},
+                    published: publishedQuery
+                }},
+                { $limit : Number(req.query.limit) || 9007199254740991 },
+             ])
+            .lookup({
+                from: "writers",
+                localField: 'writers',
+                foreignField: 'name',
+                as: 'writers'
+            })
+            .then(result=>res.send(result))
+        } catch (err) {
+            res.status(500).send(err)
+        }}
     else{
-        await Article.aggregate().sample(1).then(result=>res.send(result))
+        await Article.aggregate().sample(1).lookup({
+            from: "writers",
+            localField: 'writers',
+            foreignField: 'name',
+            as: 'writers'
+        }).then(result=>res.send(result))
     }
 })
 
 //get an article by id
 router.get('/:postId', async (req, res)=>{
     try{
-        const article = await Article.findById(req.params.postId)
-        res.send(article)
-    }
-    catch(err){
-        res.status(500).json({
-            message:err
+        await Article.aggregate([
+            {$match:{
+                _id: req.params.postId,
+            }},
+            ])
+        .lookup({
+            from: "writers",
+            localField: 'writers',
+            foreignField: 'name',
+            as: 'writers'
         })
+        .then(result=>res.send(result))
+    }
+            
+    catch (err) {
+        res.status(500).send(err)
     }
 })
 
