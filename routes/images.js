@@ -3,8 +3,8 @@ const fs = require('fs')
 const cloudinary = require("cloudinary")
 cloudinary.config({ 
     cloud_name: 'duta3135', 
-    api_key: '647422818976769', 
-    api_secret: 'uwLB4tNkEbq_wkdY08jbV7xkhjQ' 
+    api_key: process.env.API_KEY, 
+    api_secret: process.env.API_SECRET 
   });
 router.post('/', (req, res) => {
     if(!req.files){
