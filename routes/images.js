@@ -1,3 +1,4 @@
+require('dotenv').config();
 const router = require('express').Router()
 const fs = require('fs')
 const cloudinary = require("cloudinary")
@@ -30,7 +31,7 @@ router.post('/', (req, res) => {
         })
         cloudinary.v2.uploader.upload(
             uploadPath, 
-            {exif: true, public_id: `${file.name}${id}`}, 
+            {exif: true, public_id: `images/${file.name}${id}`}, 
             function(err, response){
                 if(err) res.send(err)
                 res.status(200).json({
