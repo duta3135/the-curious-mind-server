@@ -9,7 +9,12 @@ router.post('/', async (req, res) => {
         const hashedBuffer = scryptSync(req.body.password, salt, 64)
         const keyBuffer = Buffer.from(hash, 'hex')
         const match = timingSafeEqual(hashedBuffer, keyBuffer)
-        res.status(200).json({isVerified: match})
+        if(match){
+            res.status(200).json({isVerified: match, token:`${req.body.username}:${result.password}`})
+        }
+        else{
+            res.status(200).json({isVerified: match})
+        }
     })
     .catch((err)=>res.status(500).json({message:err}))
 })
