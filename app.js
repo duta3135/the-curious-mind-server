@@ -9,6 +9,14 @@ const fileUpload = require("express-fileupload")
 const cors = require('cors')
 const express = require('express')
 const app = express()
+app.use((req, res, next)=>{
+    if (req.method==="GET"){
+        next()
+    }
+    else{
+        console.log(req.headers.authorization)
+    }
+})
 app.use(fileUpload())
 app.use(express.json())
 app.use(cors({

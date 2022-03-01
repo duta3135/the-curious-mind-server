@@ -10,7 +10,6 @@ router.post('/', async (req, res) => {
         const keyBuffer = Buffer.from(hash, 'hex')
         const match = timingSafeEqual(hashedBuffer, keyBuffer)
         res.status(200).json({isVerified: match})
-        // res.send(result)
     })
     .catch((err)=>res.status(500).json({message:err}))
 })

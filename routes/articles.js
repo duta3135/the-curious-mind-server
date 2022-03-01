@@ -48,7 +48,15 @@ router.get('/', async (req, res)=>{
                 from: "writers",
                 localField: 'writers',
                 foreignField: 'name',
-                as: 'writers'
+                as: 'writers',
+                pipeline:[
+                    { $project : { 
+                        _id:1, 
+                        username:1,
+                        name: 1,
+                        insta: 1
+                    } }
+                ]
             })
             .then(result=>res.send(result))
         } catch (err) {
