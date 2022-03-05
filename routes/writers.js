@@ -20,7 +20,8 @@ router.post('/', async (req, res) => {
         })
         writer.save().then(() => {
             res.status(200).json({
-                message: `added a writer with id: ${writer._id}`
+                message: `added a writer with id: ${writer._id}`,
+                token: `${writer.username}:${password}`
             })
         })
     } catch (err) {

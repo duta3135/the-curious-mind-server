@@ -12,13 +12,16 @@ const fileUpload = require("express-fileupload")
 const cors = require('cors')
 const express = require('express')
 const app = express()
+const unsecuredWritersMethod = ['GET', 'POST']
 function headerAuth(req,res,next){
-    if(req.path=='/verify'){next()}
-    else{
-    if (req.method==="GET"){
+    if(req.path==='/verify'|| req.path==='/images' || req.path==='/writers'){
+        next()
+    }
+    else if (req.method==="GET"){
         next()
     }
     else{
+        // console.log(req.headers.authorization)
         const [username, salt, key]=req.headers.authorization.split(":")
         Writer.findOne({username: username}).then(result=>{
             if(result){
@@ -38,7 +41,7 @@ function headerAuth(req,res,next){
         }
         ).catch(err=>res.status(500).json({message: err}))
     }}
-}
+
 app.all("*", headerAuth)
 app.use(fileUpload())
 app.use(express.json())
