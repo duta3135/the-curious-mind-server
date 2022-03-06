@@ -1,9 +1,12 @@
 const mongoose = require('mongoose')
+const Writer = require('./models/Writer')
 const articles = require('./routes/articles')
 const podcasts = require('./routes/podcasts')
 const writers = require('./routes/writers')
 const images = require('./routes/images')
 const verify = require('./routes/verify')
+const {timingSafeEqual} = require('crypto')
+
 const fileUpload = require("express-fileupload")
 
 const cors = require('cors')
@@ -12,7 +15,7 @@ const app = express()
 app.use(fileUpload())
 app.use(express.json())
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: '*',
     optionsSuccessStatus: 200
 }))
 //connect to mongodb

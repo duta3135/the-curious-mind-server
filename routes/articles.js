@@ -1,8 +1,9 @@
 const Article = require('../models/Article')
 const mongoose = require('mongoose')
+const authenticate = require('../middleware/authenticate')
 const router = require('express').Router()
 //post an article
-router.post('/', async (req,res)=>{
+router.post('/',authenticate, async (req,res)=>{
     try{
         const article = new Article({
             _id: new mongoose.Types.ObjectId(),
@@ -48,7 +49,15 @@ router.get('/', async (req, res)=>{
                 from: "writers",
                 localField: 'writers',
                 foreignField: 'name',
-                as: 'writers'
+                as: 'writers',
+                pipeline:[
+                    { $project : { 
+                        _id:1, 
+                        username:1,
+                        name: 1,
+                        insta: 1
+                    } }
+                ]
             })
             .then(result=>res.send(result))
         } catch (err) {
@@ -87,7 +96,7 @@ router.get('/:postId', async (req, res)=>{
 })
 
 //delete single article
-router.delete('/:postId', async (req,res)=>{
+router.delete('/:postId',authenticate, async (req,res)=>{
     try{
         await Article.deleteOne({_id: req.params.postId})
         res.json({
@@ -101,7 +110,7 @@ router.delete('/:postId', async (req,res)=>{
     }
 })
 //update an article
-router.patch('/:postId', async (req, res)=>{
+router.patch('/:postId',authenticate, async (req, res)=>{
     try{
         Article.findByIdAndUpdate(req.params.postId, {
             title: req.body.title,
