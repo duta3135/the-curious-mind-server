@@ -1,5 +1,6 @@
 const Podcast = require('../models/Podcast')
 const mongoose = require('mongoose')
+const authenticate = require('../middleware/authenticate')
 const router = require('express').Router()
 //posts a podcast link    
 router.post('/', async (req, res)=>{
@@ -46,7 +47,7 @@ router.get('/:podcastId', async (req,res)=>{
     }
 })
 //edits a podcast
-router.patch('/:podcastId', async (req, res) => {
+router.patch('/:podcastId',authenticate, async (req, res) => {
     try{
         Podcast.findByIdAndUpdate(req.params.podcastId, {
             cover:req.body.cover,
@@ -64,7 +65,7 @@ router.patch('/:podcastId', async (req, res) => {
     }
 })
 //deletes a podcast
-router.delete('/:podcastId', async (req, res)=>{
+router.delete('/:podcastId',authenticate, async (req, res)=>{
     try{
         await Podcast.findByIdAndDelete(req.params.podcastId)
         .then(() => {

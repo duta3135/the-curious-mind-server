@@ -12,41 +12,10 @@ const fileUpload = require("express-fileupload")
 const cors = require('cors')
 const express = require('express')
 const app = express()
-const unsecuredWritersMethod = ['GET', 'POST']
-function headerAuth(req,res,next){
-    if(req.path==='/verify'|| req.path==='/images' || req.path==='/writers'){
-        next()
-    }
-    else if (req.method==="GET"){
-        next()
-    }
-    else{
-        // console.log(req.headers.authorization)
-        const [username, salt, key]=req.headers.authorization.split(":")
-        Writer.findOne({username: username}).then(result=>{
-            if(result){
-                const match = result.password === `${salt}:${key}` 
-                if(match){
-                    next()
-                }
-                else{
-                    res.status(401).json({message:"not authorized"})
-                }
-                // console.log("writer exists")
-            }
-            else{
-                res.status(401).json({message:"not authorized"})
-                // console.log("writer doesnt exists")
-            }
-        }
-        ).catch(err=>res.status(500).json({message: err}))
-    }}
-
-app.all("*", headerAuth)
 app.use(fileUpload())
 app.use(express.json())
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: '*',
     optionsSuccessStatus: 200
 }))
 //connect to mongodb

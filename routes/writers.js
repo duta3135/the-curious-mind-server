@@ -1,5 +1,6 @@
 const Writer = require('../models/Writer')
 const mongoose = require('mongoose')
+const authenticate = require('../middleware/authenticate')
 const {scryptSync, randomBytes} = require('crypto')
 const router = require('express').Router()
 //post a writer
@@ -55,7 +56,7 @@ router.get('/:writerUsername', async (req, res) => {
     }
 })
 //edit a writer
-router.patch('/:writerUsername', async (req, res) => {
+router.patch('/:writerUsername',authenticate, async (req, res) => {
     try{
         await Writer.findOneAndUpdate({username: req.params.writerUsername}, {
             username: req.body.username,
@@ -74,7 +75,7 @@ router.patch('/:writerUsername', async (req, res) => {
     }
 })
 //remove a writer
-router.delete('/:writerUsername', async (req, res) => {
+router.delete('/:writerUsername',authenticate, async (req, res) => {
     try {
         await Writer.findOneAndRemove({username: req.params.writerUsername})
         .then(() => {
