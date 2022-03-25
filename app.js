@@ -1,11 +1,9 @@
 const mongoose = require('mongoose')
-const Writer = require('./models/Writer')
 const articles = require('./routes/articles')
 const podcasts = require('./routes/podcasts')
 const writers = require('./routes/writers')
 const images = require('./routes/images')
 const verify = require('./routes/verify')
-const {timingSafeEqual} = require('crypto')
 
 const fileUpload = require("express-fileupload")
 
@@ -20,7 +18,7 @@ app.use(cors({
 }))
 //connect to mongodb
 mongoose.connect(
-    'mongodb://localhost:27017/collect-tcm', {
+    'mongodb+srv://tcm:17Agustus45!@tcm-db.kugea.mongodb.net/tcm?retryWrites=true&w=majority', {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }
