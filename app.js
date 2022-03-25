@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const mongoose = require('mongoose')
 const articles = require('./routes/articles')
 const podcasts = require('./routes/podcasts')
@@ -18,7 +20,7 @@ app.use(cors({
 }))
 //connect to mongodb
 mongoose.connect(
-    'mongodb+srv://tcm:17Agustus45!@tcm-db.kugea.mongodb.net/tcm?retryWrites=true&w=majority', {
+    process.env.MONGO_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }
