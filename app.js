@@ -30,7 +30,7 @@ mongoose.connect(
     console.log(err)
 })
 //connect to server
-app.listen(3001, ()=>{console.log('server running on http://localhost:3001')})
+app.listen(process.env.PORT, ()=>{console.log('server running')})
 //routes
 app.use('/articles', articles)
 app.use('/podcasts', podcasts)
