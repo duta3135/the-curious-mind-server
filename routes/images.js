@@ -29,17 +29,17 @@ router.post('/', (req, res) => {
                 return res.status(500).send(err)
             }
         })
-        cloudinary.v2.uploader.upload(
-            uploadPath, 
-            {exif: true, public_id: `images/${file.name}${id}`}, 
-            function(err, response){
-                if(err) res.send(err)
-                res.status(200).json({
-                    message: response,
-                    id: `${file.name}${id}`
-                })
-                fs.unlinkSync(uploadPath)
-        });
+        // cloudinary.v2.uploader.upload(
+        //     uploadPath, 
+        //     {exif: true, public_id: `images/${file.name}${id}`}, 
+        //     function(err, response){
+        //         if(err) res.send(err)
+        //         res.status(200).json({
+        //             message: response,
+        //             id: `${file.name}${id}`
+        //         })
+        //         fs.unlinkSync(uploadPath)
+        // });
     }
     catch(err){
         res.status(500).json({message: err})
