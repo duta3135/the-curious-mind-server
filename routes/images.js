@@ -1,17 +1,20 @@
 require('dotenv').config();
-const router = require('express').Router()
-const fs = require('fs')
-const cloudinary = require("cloudinary")
+const cloudinary = require("cloudinary");
 cloudinary.config({ 
     cloud_name: 'duta3135', 
     api_key: process.env.API_KEY, 
     api_secret: process.env.API_SECRET 
   });
-router.post('/', (req, res) => {
+const path = require('path')
+const DataURIParser = require('datauri/parser')
+const router = require('express').Router()
+const datauri = new DataURIParser()
+router.post('/',async (req, res) => {
     if(!req.files){
         return res.status(400).json({message: 'no files'})
     }
     try{
+        const image = await datauri.format(path.extname(req.files.image.name).toString(), req.files.image.data).content
         const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         var id;
         for (var i = 0; i <= 4; i++) {
@@ -21,25 +24,16 @@ router.post('/', (req, res) => {
             id = rawTxt.replace('undefined', '')
            }
          
-        // console.log(req.files)
-        const file= req.files.image
-        const uploadPath= `${__dirname}/../uploads/${file.name}`
-        file.mv(uploadPath, function(err){
-            if (err){
-                return res.status(500).send(err)
-            }
-        })
-        // cloudinary.v2.uploader.upload(
-        //     uploadPath, 
-        //     {exif: true, public_id: `images/${file.name}${id}`}, 
-        //     function(err, response){
-        //         if(err) res.send(err)
-        //         res.status(200).json({
-        //             message: response,
-        //             id: `${file.name}${id}`
-        //         })
-        //         fs.unlinkSync(uploadPath)
-        // });
+        cloudinary.v2.uploader.upload(
+            image, 
+            {exif: true, public_id: `images/${req.files.image.name}${id}`}, 
+            function(err, response){
+                if(err) res.send(err)
+                res.status(200).json({
+                    message: response,
+                    id: `${req.files.image.name}${id}`
+                })
+        });
     }
     catch(err){
         res.status(500).json({message: err})
